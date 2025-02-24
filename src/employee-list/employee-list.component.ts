@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { select, Store } from '@ngrx/store';
+import { select,  Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Employee } from 'src/models/employee.model';
 
-import * as fromRoot from '../Store/selector/employees.selector';
+// import * as fromRoot from '../Store/selector/employees.selector';
+import {getEmployees, getError, State} from '../Store/selector/employees.selector';
 import * as EmployeeActions from '../Store/actions/employee.actions';
+
+import { state } from '@angular/animations';
 
 @Component({
   selector: 'app-employee-list',
@@ -14,17 +17,17 @@ import * as EmployeeActions from '../Store/actions/employee.actions';
 export class EmployeeListComponent implements OnInit {
 displayedColumns: any;
  
-  constructor( private store: Store<fromRoot.AppState>){ }
+  constructor(private store: Store<State>){ }
  
-  employees$: Observable<Employee[]> = this.store.pipe(select(fromRoot.selectFeatureEmployee))
-  errorMessage$: Observable<String> = this.store.pipe(select(fromRoot.selectFeatureError))
- 
+  employees$ : Observable<Employee[]> | undefined;
+  errorMessage$: Observable<string> | undefined;
+
 
   ngOnInit(): void {
       this.store.dispatch(EmployeeActions.loadEmployees());
-    //this.store.dispatch({type: '[Employee] Load Employees'});
+      this.employees$ = this.store.select(getEmployees);
 
-    // console.log("hey there!:"+this.employees)
+      this.errorMessage$ = this.store.select(getError);
   }
 
   deleteEmployee(id: number): void {

@@ -14,6 +14,7 @@ import { employeeReducer } from 'src/Store/reducers/employee.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { EmployeeEffects } from 'src/Store/effects/employee.effects';
 import { MatTableModule } from '@angular/material/table';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 
 // export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -43,7 +44,11 @@ import { MatTableModule } from '@angular/material/table';
     MatToolbarModule,
     MatTableModule,
     StoreModule.forRoot({employees:employeeReducer}),
-    EffectsModule.forRoot([EmployeeEffects])
+    EffectsModule.forRoot([EmployeeEffects]),
+    StoreDevtoolsModule.instrument({
+      name:'Employee App DevTools',
+      maxAge:25      
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,19 +1,12 @@
 import { createReducer, on } from "@ngrx/store";
 import { Employee } from "src/models/employee.model";
 import * as EmployeeActions from  '../actions/employee.actions';
-import { initialEmployeeState } from "../states/employee.store";
 
+import { initialState } from "../selector/employees.selector";
 
-export interface EmployeeState {
-    employees: Employee[];
-}
-
-// export const initialEmployeeState: EmployeeState = {
-//     employees: []
-// };
 
 export const employeeReducer = createReducer(
-    initialEmployeeState,
+    initialState,
     on(EmployeeActions.loadEmployees,(state)=>state),
     on(EmployeeActions.loadEmployeesSuccess,(state:any,{allEmployees})=>
         {
@@ -23,13 +16,15 @@ export const employeeReducer = createReducer(
         return {...state, errorMessage:errorMessage,allEmployees:[]}
     }),
 
-    on(EmployeeActions.addEmployee,(state,{employee})=>({...state, employees:[...state.allEmployees, employee]})),
-    on(EmployeeActions.updateEmployee,(state,{employee})=> ({
+    on(EmployeeActions.updateEmployeeSuccess,(state,{employee})=> ({
         ...state,
-        //employees: state.employees.map(emp=>emp.id===employee.id? employee:emp)
+        employees: state.allEmployees.map(e => e.id === employee.id ? employee : e)
     })),
-    on(EmployeeActions.deleteEmployee,(state,{id})=>({
+
+    on(EmployeeActions.addEmployee,(state,{employee})=>({...state, employees:[...state.allEmployees, employee]})),
+   
+    on(EmployeeActions.deleteEmployeeSuccess,(state,{id})=>({
         ...state,
-        //employees: state.employees.filter(emp=>emp.id !== id)
+        employees: state.allEmployees.filter(e => e.id !== id)
     }))    
 );

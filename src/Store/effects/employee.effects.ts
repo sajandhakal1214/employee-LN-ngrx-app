@@ -18,6 +18,7 @@ export class EmployeeEffects{
         .pipe(
             map(employees=>({type:'[Employee] Load Employees SUCCESS', allEmployees: employees})),
             catchError(()=>of({type:'[Employee] Load Employees ERROR', errorMessage: 'No Employees Found'}))
+            //catchError(error =>of(EmployeeActions.loadEmployeesError({errorMessage})))
         )
     )
     ))
@@ -37,9 +38,11 @@ export class EmployeeEffects{
     updateEmployee$ = createEffect(() =>
         this.actions$.pipe(
             ofType(EmployeeActions.updateEmployee),
-            mergeMap(action => this.employeeService.updateEmployee(action.employee).pipe(
-                map(employee=> EmployeeActions.updateEmployee({employee})),
-                catchError(()=> of({type:'[Employee] Update Employee FAILURE'}))
+            mergeMap(action => this.employeeService.updateEmployee(action.employee)
+                .pipe(
+                map(employee=> EmployeeActions.updateEmployeeSuccess({employee})),
+                 catchError(()=> of({type:'[Employee] Update Employee FAILURE'}))
+                //catchError(()=> of(EmployeeActions.updateEmployeeFailure({error})))
             ))
         )
     );
