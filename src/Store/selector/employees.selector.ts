@@ -3,18 +3,18 @@ import { Employee } from "src/models/employee.model";
 import * as AppState from '../state/app.state';
 
 export interface State extends AppState.State{
-    allEmployees:EmployeeState
+    employees:EmployeeState
 }
 
 export interface EmployeeState {
     currentEmployeeId:number | null;
-    allEmployees: Employee[];   
+    employees: Employee[];   
     error: string ;
 }
 
 export const initialState: EmployeeState = {
     currentEmployeeId: null,
-    allEmployees: [],
+    employees: [],
     error: ''
 
 };
@@ -29,7 +29,7 @@ export const getCurrentEmployeeId = createSelector(
 
   export const getEmployees = createSelector(
     getEmployeeFeatureState,
-    state => state.allEmployees
+    state => state.employees
   );
   
   export const getError = createSelector(
@@ -41,36 +41,19 @@ export const getCurrentEmployeeId = createSelector(
     getEmployeeFeatureState,
     getCurrentEmployeeId,
     (state, currentEmployeeId) => {
+        debugger;
       if (currentEmployeeId === 0) {
         return {
             id: 0,
-            firstName:'',
+            firstname:'',
             lastname: '',
             department: '',
             email: '',
             country: '',         
         };
       } else {
-        return currentEmployeeId ? state.allEmployees.find(p => p.id === currentEmployeeId) : null;
+        return currentEmployeeId ? state.employees.find(e => e.id === currentEmployeeId) : null;
       }
     }
   );
  
-
-// export const selectFeature =(state: AppState) =>{
-//     return state.employees
-// }
-
-// export const selectError =(state:AppState)=>{
-//     return state.employees
-// }
-
-// export const selectFeatureEmployee = createSelector(selectFeature,
-//     (state:FeatureState)=> state.allEmployees
-// );
-
-
-// export const selectFeatureError = createSelector(
-//     selectFeature,
-//     (state: FeatureState)=>state.errorMessage
-// );

@@ -16,7 +16,7 @@ export class EmployeeEffects{
         ofType(EmployeeActions.loadEmployees),
         mergeMap(()=>this.employeeService.getEmployees()
         .pipe(
-            map(employees=>({type:'[Employee] Load Employees SUCCESS', allEmployees: employees})),
+            map(employees=>({type:'[Employee] Load Employees SUCCESS', employees: employees})),
             catchError(()=>of({type:'[Employee] Load Employees ERROR', errorMessage: 'No Employees Found'}))
             //catchError(error =>of(EmployeeActions.loadEmployeesError({errorMessage})))
         )

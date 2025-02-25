@@ -15,7 +15,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { EmployeeEffects } from 'src/Store/effects/employee.effects';
 import { MatTableModule } from '@angular/material/table';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-
+import { ReactiveFormsModule } from '@angular/forms'; 
 
 // export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
 //   return function (state, action) {
@@ -37,6 +37,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
   ],
   imports: [
     BrowserModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,

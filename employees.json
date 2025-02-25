@@ -1,7 +1,7 @@
 {
   "employees": [
     {
-      "id": 1,
+      "id": "1",
       "firstname": "Kindson",
       "lastname": "Munonye",
       "department": "Comp Sc",
@@ -9,7 +9,7 @@
       "country": "Nigeria"
     },
     {
-      "id": 2,
+      "id": "2",
       "firstname": "Mila",
       "lastname": "Nepla",
       "department": "Programming",
@@ -17,31 +17,23 @@
       "country": "Hungary"
     },
     {
-      "id": 3,
+      "id": "3",
       "firstname": "Helen",
       "lastname": "Phils",
       "department": "Electronics",
       "email": "helen@gmail.com",
       "country": "USA"
     },
-	{
-      "id": 4,
+    {
+      "id": "4",
       "firstname": "Ravi",
       "lastname": "Sharma",
       "department": "Infomatics",
       "email": "ravi@gmail.com",
       "country": "India"
     },
-	{
-      "id": 5,
-      "firstname": "Omar",
-      "lastname": "Alabi",
-      "department": "Security",
-      "email": "omar@gmail.com",
-      "country": "Canada"
-    },
-	{
-      "id": 6,
+    {
+      "id": "6",
       "firstname": "Rajiv",
       "lastname": "Kumar",
       "department": "AddDev",
@@ -49,6 +41,4 @@
       "country": "Nigeria"
     }
   ]
-
 }
-

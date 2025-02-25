@@ -7,7 +7,7 @@ export const clearCurrentEmployee = createAction('[Employee] Clear Current Emplo
 export const initializeCurrentEmployee = createAction('[Employee] Initialize Current Employee');
 
 export const loadEmployees = createAction('[Employee] Load Employees');
-export const loadEmployeesSuccess = createAction('[Employee] Load Employees SUCCESS', props<{ allEmployees: Employee[] }>());
+export const loadEmployeesSuccess = createAction('[Employee] Load Employees SUCCESS', props<{ employees: Employee[] }>());
 export const loadEmployeesError = createAction('[Employee] Load Employees ERROR', props<{ errorMessage: string }>());
 
 export const addEmployee = createAction('[Employee] Add Employee', props<{ employee: Employee }>());
