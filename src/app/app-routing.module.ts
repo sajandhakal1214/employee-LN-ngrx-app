@@ -5,7 +5,7 @@ import { EmployeeListComponent } from 'src/employee-list/employee-list.component
 
 const routes: Routes = [
   { path: 'list', component: EmployeeListComponent },
-  { path: 'form', component: EmployeeFormComponent },
+  { path: 'form/:id', component: EmployeeFormComponent },
   { path: '', redirectTo: '/list', pathMatch: 'full' }
 
 ];

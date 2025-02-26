@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Employee } from 'src/models/employee.model';
 
 // import * as fromRoot from '../Store/selector/employees.selector';
-import {getEmployees, getError, State} from '../Store/selector/employees.selector';
+import { getEmployees, getError, State } from '../Store/selector/employees.selector';
 import * as EmployeeActions from '../Store/actions/employee.actions';
 import { Router } from '@angular/router';
 
@@ -14,38 +14,48 @@ import { Router } from '@angular/router';
   styleUrls: ['./employee-list.component.css']
 })
 export class EmployeeListComponent implements OnInit {
-displayedColumns: any;
- 
-  constructor(private store: Store<State>, private router: Router){ }
- 
-  employees$ : Observable<Employee[]> | undefined;
+  displayedColumns: any;
+
+  constructor(private store: Store<State>, private router: Router) { }
+
+  employees$: Observable<Employee[]> | undefined;
   errorMessage$: Observable<string> | undefined;
 
 
-  ngOnInit(): void {
-      this.store.dispatch(EmployeeActions.loadEmployees());
-      this.employees$ = this.store.select(getEmployees);
 
-      this.errorMessage$ = this.store.select(getError);
+  ngOnInit(): void {
+    this.store.dispatch(EmployeeActions.loadEmployees());
+    this.employees$ = this.store.select(getEmployees);
+
+    this.errorMessage$ = this.store.select(getError);
 
   }
 
   employeeSelected(employee: Employee): void {
-     this.store.dispatch(EmployeeActions.setCurrentEmployee({ currentEmployeeId: employee.id }));
-    
-    //this.router.navigate(['/form', employee.id]);
-    this.router.navigate(['/form']);
+    this.store.dispatch(EmployeeActions.setCurrentEmployee({ currentEmployeeId: employee.id }));
+
+    this.router.navigate(['/form', employee.id]);
+    //this.router.navigate(['/form']);
 
   }
 
 
-  deleteEmployee(id: number): void {
-    this.store.dispatch(EmployeeActions.deleteEmployee({id}));
+  deleteEmployee(employee: Employee): void {
+    debugger
+    if (employee && employee.id) {
+      if (confirm(`Are you sure you want to delete employee: ${employee.firstName + ' ' + employee.lastname}?`)) {
+        this.store.dispatch(EmployeeActions.deleteEmployee({ id: employee.id }));
+      }
+    }
+    else {
+      // No need to delete, it was never saved
+      this.store.dispatch(EmployeeActions.clearCurrentEmployee());
+    }
   }
 
-  updateEmployee(employee:Employee):void{
-    console.log('Update clicked!');
-    this.store.dispatch(EmployeeActions.updateEmployee({employee}));
-  }
+    updateEmployee(employee: Employee): void {
+      console.log('Update clicked!');
+      this.store.dispatch(EmployeeActions.updateEmployee({ employee }));
+    }
 
-}
+  }

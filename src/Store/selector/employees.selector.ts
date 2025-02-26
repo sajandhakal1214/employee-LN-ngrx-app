@@ -41,11 +41,10 @@ export const getCurrentEmployeeId = createSelector(
     getEmployeeFeatureState,
     getCurrentEmployeeId,
     (state, currentEmployeeId) => {
-        debugger;
       if (currentEmployeeId === 0) {
         return {
             id: 0,
-            firstname:'',
+            firstName:'',
             lastname: '',
             department: '',
             email: '',

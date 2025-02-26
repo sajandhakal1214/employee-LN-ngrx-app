@@ -2,7 +2,7 @@
   "employees": [
     {
       "id": "1",
-      "firstname": "Kindson",
+      "firstName": "Kindson",
       "lastname": "Munonye",
       "department": "Comp Sc",
       "email": "kindson@gmail.com",
@@ -10,7 +10,7 @@
     },
     {
       "id": "2",
-      "firstname": "Mila",
+      "firstName": "Mila",
       "lastname": "Nepla",
       "department": "Programming",
       "email": "mila@gmail.com",
@@ -18,7 +18,7 @@
     },
     {
       "id": "3",
-      "firstname": "Helen",
+      "firstName": "Helen",
       "lastname": "Phils",
       "department": "Electronics",
       "email": "helen@gmail.com",
@@ -26,7 +26,7 @@
     },
     {
       "id": "4",
-      "firstname": "Ravi",
+      "firstName": "Ravi",
       "lastname": "Sharma",
       "department": "Infomatics",
       "email": "ravi@gmail.com",
@@ -34,11 +34,19 @@
     },
     {
       "id": "6",
-      "firstname": "Rajiv",
+      "firstName": "Rajiv",
       "lastname": "Kumar",
       "department": "AddDev",
       "email": "kumar@gmail.com",
       "country": "Nigeria"
+    },
+    {
+      "id": "7",
+      "firstName": "Peter",
+      "lastname": "Gonzalez",
+      "department": "CEO",
+      "email": "peter@gmail.com",
+      "country": "Mexico"
     }
   ]
 }

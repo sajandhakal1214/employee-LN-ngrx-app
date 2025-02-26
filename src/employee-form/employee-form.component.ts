@@ -6,6 +6,9 @@ import { getCurrentEmployee, State } from 'src/Store/selector/employees.selector
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { ReactiveFormsModule } from '@angular/forms';
+import { StorageService } from 'src/service/storage.service';
+import { loadIdFromStorage } from 'src/Store/actions/employee.actions';
+import * as EmployeeActions from '../Store/actions/employee.actions';
 
 @Component({
   selector: 'app-employee-form',
@@ -13,16 +16,15 @@ import { ReactiveFormsModule } from '@angular/forms';
   styleUrls: ['./employee-form.component.css']
 })
 export class EmployeeFormComponent implements OnInit {
-  pageTitle = 'Employee Edit';
+  pageTitle = 'Employee Details';
 
   employeeForm!: FormGroup;
 
   employee$: Observable<Employee | null | undefined> | undefined;
 
-  //const employeeObservable: Observable<Employee | null | undefined> = getEmployeeObservable();
-
-
   id: string | null = null;
+  eid$: Observable<number | null>;
+  myEmployee: Employee | null | undefined;
 
 
   // Use with the generic validation message class
@@ -32,8 +34,11 @@ export class EmployeeFormComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private route: ActivatedRoute,
-    private store: Store<State>
-  ) { }
+    private store: Store<State>,
+    private storageService: StorageService
+  ) {
+    this.eid$ = this.store.select(state => state.employee.currentEmployeeId);
+  }
 
   ngOnInit(): void {
 
@@ -41,46 +46,55 @@ export class EmployeeFormComponent implements OnInit {
 
     console.log("ID in Form page:" + this.id);
 
+    const savedId = this.storageService.load<string>('id');
+
+    if (savedId) {
+      this.store.dispatch(EmployeeActions.saveIdToStorage({ id: savedId }));
+    }
+
+    // if (this.id !== null) {
+    //   this.store.dispatch(EmployeeActions.saveIdToStorage({ id: Number(this.id) }));
+    // }
+
+
+
 
     this.employeeForm = this.fb.group({
-      firstname: ['', Validators.required],
+      firstName: ['', Validators.required],
       lastname: ['', Validators.required],
       department: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       country: ['', Validators.required]
     });
 
-    // Watch for changes to the currently selected employee
-    // this.employee$ = this.store.select(getCurrentEmployee)
-    //  .pipe(
-    //    tap(currentEmployee => this.displayEmployee(currentEmployee))
-    //  );
 
     this.employee$ = this.store.select(getCurrentEmployee);
     this.employee$.subscribe
-      (obj => this.displayEmployee(obj as Employee)
-      );
-
+      (obj => {
+        this.displayEmployee(obj as Employee);
+        this.myEmployee = obj
+      });
 
   }
 
   displayEmployee(employee: Employee): void {
 
+    console.log(this.store.dispatch(loadIdFromStorage()))
+
     if (employee) {
       // Reset the form back to pristine
       this.employeeForm.reset();
 
-      // Display the appropriate page title
-      if (employee.id === 0) {
-        this.pageTitle = 'Add Employee';
-      } else {
-        this.pageTitle = `Edit Employee: ${employee.firstname + ' ' + employee.lastname}`;
-      }
+      // if (employee.id === null) {
+      //   this.store.dispatch(loadIdFromStorage());
+
+      // }
+
 
       // Update the data on the form
       this.employeeForm.patchValue({
-        firstname: employee.firstname,
-        lastName: employee.lastname,
+        firstName: employee.firstName,
+        lastname: employee.lastname,
         department: employee.department,
         email: employee.email,
         country: employee.country
@@ -88,11 +102,29 @@ export class EmployeeFormComponent implements OnInit {
     }
   }
 
-  onSubmit() {
+  // onSubmit() {
+  //   if (this.employeeForm.valid) {
+  //     console.log('Form submitted:', this.employeeForm.value);
+  //   } else {
+  //     console.log('Form is invalid!');
+  //   }
+  // }
+
+  onSubmit(): void {
     if (this.employeeForm.valid) {
-      console.log('Form submitted:', this.employeeForm.value);
-    } else {
-      console.log('Form is invalid!');
+      if (this.employeeForm.dirty) {
+        // Copy over all of the original product properties
+        // Then copy over the values from the form
+        // This ensures values not on the form, such as the Id, are retained
+        const employee = { ...this.myEmployee, ...this.employeeForm.value };
+
+        debugger
+        if (employee.id === 0) {
+          this.store.dispatch(EmployeeActions.addEmployee({ employee }));
+        } else {
+          this.store.dispatch(EmployeeActions.updateEmployee({ employee }));
+        }
+      }
     }
   }
 

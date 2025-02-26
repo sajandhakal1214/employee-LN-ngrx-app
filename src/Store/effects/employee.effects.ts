@@ -3,12 +3,13 @@ import { EmployeeService } from 'src/service/employee.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, of } from 'rxjs';
 import * as EmployeeActions from '../actions/employee.actions';
+import { StorageService } from 'src/service/storage.service';
 
 
 
 @Injectable()
 export class EmployeeEffects{
-    constructor(private actions$: Actions, private employeeService: EmployeeService){}
+    constructor(private actions$: Actions, private employeeService: EmployeeService, private storageService: StorageService){}
 
     //loadEmployees
     loadEmployees$ = createEffect(()=>
@@ -57,5 +58,18 @@ export class EmployeeEffects{
             ))
         )
     );
+
+    loadId$ = createEffect(() =>
+        this.actions$.pipe(
+          ofType(EmployeeActions.loadIdFromStorage),
+          mergeMap(() => {
+            const id = this.storageService.load<string>('id');
+            if (id) {
+              return [EmployeeActions.saveIdToStorage({ id })];
+            }
+            return [];
+          })
+        )
+      );
 
 }

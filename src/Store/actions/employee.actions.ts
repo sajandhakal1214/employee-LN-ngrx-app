@@ -20,3 +20,6 @@ export const updateEmployeeFailure = createAction('[Employee] Update Employee Fa
 export const deleteEmployee = createAction('[Employee] Delete Employee', props<{ id: number }>());
 export const deleteEmployeeSuccess = createAction('[Employee] Delete Employee Success', props<{ id: number }>());
 export const deleteEmployeeFailure = createAction('[Employee] Delete Employee Failure', props<{ error: string }>());
+
+export const saveIdToStorage  = createAction('[Employee] Save ID To Storage', props<{ id: string }>());
+export const loadIdFromStorage = createAction('[Employee] Load ID From Storage');
