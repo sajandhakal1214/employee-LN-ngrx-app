@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { filter, Observable, tap } from 'rxjs';
 import { Employee } from 'src/models/employee.model';
 import { getCurrentEmployee, State } from 'src/Store/selector/employees.selector';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StorageService } from 'src/service/storage.service';
@@ -26,7 +26,6 @@ export class EmployeeFormComponent implements OnInit {
   eid$: Observable<number | null>;
   myEmployee: Employee | null | undefined;
 
-
   // Use with the generic validation message class
   displayMessage: { [key: string]: string } = {};
   //private validationMessages!: { [key: string]: { [key: string]: string; }; };
@@ -35,7 +34,8 @@ export class EmployeeFormComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private route: ActivatedRoute,
     private store: Store<State>,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private router: Router
   ) {
     this.eid$ = this.store.select(state => state.employee.currentEmployeeId);
   }
@@ -43,25 +43,20 @@ export class EmployeeFormComponent implements OnInit {
   ngOnInit(): void {
 
     this.id = this.route.snapshot.paramMap.get('id');
-
     console.log("ID in Form page:" + this.id);
+    let savedId = null;
+    if(this.id !== "0" && this.id !==null){
+       savedId = this.storageService.save('id',this.id);
+    }
+    
 
-    const savedId = this.storageService.load<string>('id');
-
-    if (savedId) {
+    if (savedId!=null && savedId!==0) {
       this.store.dispatch(EmployeeActions.saveIdToStorage({ id: savedId }));
     }
 
-    // if (this.id !== null) {
-    //   this.store.dispatch(EmployeeActions.saveIdToStorage({ id: Number(this.id) }));
-    // }
-
-
-
-
     this.employeeForm = this.fb.group({
       firstName: ['', Validators.required],
-      lastname: ['', Validators.required],
+      lastName: ['', Validators.required],
       department: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       country: ['', Validators.required]
@@ -75,40 +70,52 @@ export class EmployeeFormComponent implements OnInit {
         this.myEmployee = obj
       });
 
+     this.reloadEmployee();
+     
+  }
+
+  reloadEmployee():void{
+    this.store.select(getCurrentEmployee);
   }
 
   displayEmployee(employee: Employee): void {
 
-    console.log(this.store.dispatch(loadIdFromStorage()))
+    console.log("Dispatching Id from store: " +this.store.dispatch(loadIdFromStorage()))
 
     if (employee) {
       // Reset the form back to pristine
       this.employeeForm.reset();
 
-      // if (employee.id === null) {
-      //   this.store.dispatch(loadIdFromStorage());
-
-      // }
-
-
       // Update the data on the form
       this.employeeForm.patchValue({
         firstName: employee.firstName,
-        lastname: employee.lastname,
+        lastName: employee.lastName,
         department: employee.department,
         email: employee.email,
         country: employee.country
       });
     }
   }
+  cancelEdit(employee: Employee):void{
+     // Redisplay the currently selected employee
+    // replacing any edits made
+    this.displayEmployee(employee);
+  }
 
-  // onSubmit() {
-  //   if (this.employeeForm.valid) {
-  //     console.log('Form submitted:', this.employeeForm.value);
-  //   } else {
-  //     console.log('Form is invalid!');
-  //   }
-  // }
+  deleteEmployee(employee: Employee): void{
+    if (employee && employee.id) {
+      if (confirm(`Are you sure you want to delete employee: ${employee.firstName + ' ' + employee.lastName}?`)) {
+        this.store.dispatch(EmployeeActions.deleteEmployee({ id: employee.id }));
+      }
+    }
+    else {
+      // No need to delete, it was never saved
+      this.store.dispatch(EmployeeActions.clearCurrentEmployee());
+    }
+  }
+  backToListing():void{
+    this.router.navigate(['/list']);
+  }
 
   onSubmit(): void {
     if (this.employeeForm.valid) {
@@ -120,7 +127,7 @@ export class EmployeeFormComponent implements OnInit {
 
         debugger
         if (employee.id === 0) {
-          this.store.dispatch(EmployeeActions.addEmployee({ employee }));
+          this.store.dispatch(EmployeeActions.createEmployee({ employee }));
         } else {
           this.store.dispatch(EmployeeActions.updateEmployee({ employee }));
         }

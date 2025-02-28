@@ -17,17 +17,17 @@ export class EmployeeService {
     return this.http.get<Employee[]>(this.apiUrl);
   }
 
-  // addEmployee(employee:Employee): Observable<Employee>{
+  // createEmployee(employee:Employee): Observable<Employee>{
   //   return this.http.post<Employee>(this.apiUrl, employee);
   // }
 
-  addEmployee(employee:Employee): Observable<Employee>{
+  createEmployee(employee:Employee): Observable<Employee>{
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     // Employee Id must be null for the Web API to assign an Id
     const newEmployee = { ...employee, id: null };
     return this.http.post<Employee>(this.apiUrl, newEmployee, { headers })
       .pipe(
-        tap(data => console.log('addEmployee: ' + JSON.stringify(data))),
+        tap(data => console.log('createEmployee: ' + JSON.stringify(data))),
         catchError(this.handleError)
       );
   }
@@ -42,7 +42,7 @@ export class EmployeeService {
     return this.http.put<Employee>(url, employee, { headers })
       .pipe(
         tap(() => console.log('updateEmployee: ' + employee.id)),
-        // Return the product on an update
+        // Return the employee on an update
         map(() => employee),
         catchError(this.handleError)
       );

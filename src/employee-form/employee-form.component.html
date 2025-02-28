@@ -3,61 +3,64 @@
 
 <!-- ID in form page {{this.employee$ | async as employee | json}} -->
 
-<div
-    *ngIf="this.employee$ |async as employee">    
-        {{pageTitle}}
-</div>
-
-<div class="w-50 bg-light container mt-5">
-    <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
-        <div class="row">
-            <div class="col-sm-2">
-                <div class="mb-3">
-                    <label style="padding-top: 10px;" for="firstName" class="form-label">First Name</label>
-                    <input type="text"  class="form-control" id="firstName" formControlName="firstName"
-                        placeholder="">
+<div *ngIf="this.employee$ |async as employee">
+    {{pageTitle}}
+    <div class="w-50 bg-light container mt-5">
+        
+        <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="mb-3">
+                        <label style="padding-top: 10px;" for="firstName" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="firstName" formControlName="firstName"
+                            placeholder="">
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="mb-3">
-                    <label style="padding-top: 10px;" for="lastname" class="form-label">Last Name</label>
-                    <input type="text" class="form-control" id="lastname" formControlName="lastname"
-                        placeholder="">
-                </div>
-            </div>
-
-        </div>
-        <div class="row">
-            <div class="col-sm-2">
-                <div class="mb-3">
-                    <label for="department" class="form-label">Department</label>
-                    <input type="text" class="form-control" id="department" formControlName="department"
-                        placeholder="">
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="mb-3">
-                    <label for="country" class="form-label">Country</label>
-                    <input type="text" class="form-control" id="country" formControlName="country"
-                        placeholder="">
+                <div class="col-sm-2">
+                    <div class="mb-3">
+                        <label style="padding-top: 10px;" for="lastName" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" formControlName="lastName" placeholder="">
+                    </div>
                 </div>
 
             </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="mb-3">
+                        <label for="department" class="form-label">Department</label>
+                        <input type="text" class="form-control" id="department" formControlName="department"
+                            placeholder="">
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="mb-3">
+                        <label for="country" class="form-label">Country</label>
+                        <input type="text" class="form-control" id="country" formControlName="country" placeholder="">
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="mb-3">
+
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" style="width:350px" class="form-control" id="email" formControlName="email"
+                            placeholder="">
+                    </div>
+                </div>
+            </div>
+            <button type="button" (click)="backToListing()" class="btn btn-secondary">Back to Listing</button>&nbsp;&nbsp;
+            <button [disabled]="!employeeForm.valid || !employeeForm.dirty" type="submit"
+                class="btn btn-primary">Save</button>&nbsp;&nbsp;
+            <button type="submit" class="btn btn-dark" (click)="cancelEdit(employee)">Cancel</button>&nbsp;&nbsp;
+            <button type="submit" (click)="deleteEmployee(employee)" class="btn btn-danger">Delete</button>&nbsp;&nbsp;
            
-        </div>
 
-        <div class="row">
-            <div class="col-sm-2">
-                <div class="mb-3">                   
 
-                <label for="email" class="form-label">Email</label>
-                    <input type="email" style="width:350px"   class="form-control" id="email" formControlName="email" placeholder="">
-                </div>
-            </div>
-        </div>
-        <button  type="submit" class="btn btn-primary">Save</button>
+        </form>
 
-      
-    </form>
-
+    </div>
 </div>

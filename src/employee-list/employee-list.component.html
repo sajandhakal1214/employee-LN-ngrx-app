@@ -1,6 +1,10 @@
 
 
-  <div style="padding: 20px; padding-left: 200px;" class="col-md-9">
+  <div style="padding: 20px; padding-left: 100px;" class="col-md-9">
+    <div style="padding-bottom: 10px;">
+      <button class="btn btn-info btn-md" (click)="newEmployee()">Add New Employee</button>&nbsp;&nbsp;
+    </div>
+    
     <table class="table table-bordered table-striped">
       <thead class="thead-dark">
         <tr>
@@ -17,12 +21,12 @@
         <tr *ngFor="let employee of employees$ | async">
           <td>{{ employee.id }}</td>
           <td>{{ employee.firstName }}</td>
-          <td>{{ employee.lastname }}</td>
+          <td>{{ employee.lastName }}</td>
           <td>{{ employee.department }}</td>
           <td>{{ employee.email }}</td>
           <td>{{ employee.country }}</td>
           <td class="myButtons">
-            <button class="btn btn-info btn-sm" (click)="employeeSelected(employee)">Edit</button>&nbsp;&nbsp;
+            <button class="btn btn-info btn-sm" (click)="updateEmployee(employee)">Edit</button>&nbsp;&nbsp;
             <button class="btn btn-danger btn-sm" (click)="deleteEmployee(employee)">Delete</button>
           </td>
         </tr>

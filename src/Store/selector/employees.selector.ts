@@ -45,7 +45,7 @@ export const getCurrentEmployeeId = createSelector(
         return {
             id: 0,
             firstName:'',
-            lastname: '',
+            lastName: '',
             department: '',
             email: '',
             country: '',         

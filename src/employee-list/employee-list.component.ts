@@ -31,20 +31,20 @@ export class EmployeeListComponent implements OnInit {
 
   }
 
-  employeeSelected(employee: Employee): void {
-    this.store.dispatch(EmployeeActions.setCurrentEmployee({ currentEmployeeId: employee.id }));
+  // employeeSelected(employee: Employee): void {
+  //   this.store.dispatch(EmployeeActions.setCurrentEmployee({ currentEmployeeId: employee.id }));
 
-    this.router.navigate(['/form', employee.id]);
-    //this.router.navigate(['/form']);
+  //   this.router.navigate(['/form', employee.id]);
+  //   //this.router.navigate(['/form']);
 
-  }
+  // }
 
 
   deleteEmployee(employee: Employee): void {
-    debugger
     if (employee && employee.id) {
-      if (confirm(`Are you sure you want to delete employee: ${employee.firstName + ' ' + employee.lastname}?`)) {
+      if (confirm(`Are you sure you want to delete employee: ${employee.firstName + ' ' + employee.lastName}?`)) {
         this.store.dispatch(EmployeeActions.deleteEmployee({ id: employee.id }));
+        this.reloadPage();
       }
     }
     else {
@@ -53,9 +53,27 @@ export class EmployeeListComponent implements OnInit {
     }
   }
 
-    updateEmployee(employee: Employee): void {
-      console.log('Update clicked!');
-      this.store.dispatch(EmployeeActions.updateEmployee({ employee }));
-    }
+  reloadPage():void{
+    window.location.reload();
+  }
+
+  updateEmployee(employee: Employee): void {
+    this.store.dispatch(EmployeeActions.setCurrentEmployee({ currentEmployeeId: employee.id }));
+
+    this.router.navigate(['/form', employee.id]);
 
   }
+
+  createEmployee(): void {
+    console.log('Update clicked!');
+    // this.store.dispatch(EmployeeActions.updateEmployee({ employee }));
+  }
+
+  newEmployee(): void {
+    //this.store.dispatch(EmployeeActions.initializeCurrentEmployee());
+    this.store.dispatch(EmployeeActions.initializeCurrentEmployee());
+    this.router.navigate(['/form', 0]);
+
+  }
+
+}
