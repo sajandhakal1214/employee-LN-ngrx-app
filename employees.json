@@ -1,61 +1,44 @@
-
 {
   "employees": [
     {
-      
       "firstName": "Kindson",
       "lastName": "Munonye",
       "department": "Comp Sc",
       "email": "kindson@gmail.com",
-      "country": "Nigeria"
+      "country": "Nigeria",
+      "id": "318c"
     },
     {
-      
       "firstName": "Mila",
       "lastName": "Nepla",
       "department": "Programming",
       "email": "mila@gmail.com",
-      "country": "Hungary"
+      "country": "Hungary",
+      "id": "0a89"
     },
     {
-      
       "firstName": "Helen",
       "lastName": "Phils",
       "department": "Electronics",
       "email": "helen@gmail.com",
-      "country": "USA"
+      "country": "USA",
+      "id": "c93f"
     },
-	{
-      
+    {
       "firstName": "Ravi",
       "lastName": "Sharma",
       "department": "Infomatics",
       "email": "ravi@gmail.com",
-      "country": "India"
-    },
-	{
-      
-      "firstName": "Steve",
-      "lastName": "Smith",
-      "department": "Dept of Agri",
-      "email": "steve@gmail.com",
-      "country": "Australia"
-    },
-	{
-      
-      "firstName": "Rajiv",
-      "lastName": "Kumar",
-      "department": "AddDev",
-      "email": "kumar@gmail.com",
-      "country": "Nigeria"
+      "country": "India",
+      "id": "7107"
     },
     {
-      
-      "firstName": "Peter",
-      "lastName": "Gonzalez",
-      "department": "CEO",
-      "email": "peter@gmail.com",
-      "country": "Mexico"
+      "id": null,
+      "firstName": "w",
+      "lastName": "t",
+      "department": "u",
+      "email": "dffd@gma",
+      "country": "d"
     }
   ]
 }

@@ -1,36 +1,37 @@
-
-
-  <div style="padding: 20px; padding-left: 100px;" class="col-md-9">
-    <div style="padding-bottom: 10px;">
-      <button class="btn btn-info btn-md" (click)="newEmployee()">Add New Employee</button>&nbsp;&nbsp;
-    </div>
-    
-    <table class="table table-bordered table-striped">
-      <thead class="thead-dark">
-        <tr>
-          <th>ID</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Department</th>
-          <th>Email</th>
-          <th>Country</th>
-          <th class="myButtons">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let employee of employees$ | async">
-          <td>{{ employee.id }}</td>
-          <td>{{ employee.firstName }}</td>
-          <td>{{ employee.lastName }}</td>
-          <td>{{ employee.department }}</td>
-          <td>{{ employee.email }}</td>
-          <td>{{ employee.country }}</td>
-          <td class="myButtons">
-            <button class="btn btn-info btn-sm" (click)="updateEmployee(employee)">Edit</button>&nbsp;&nbsp;
-            <button class="btn btn-danger btn-sm" (click)="deleteEmployee(employee)">Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+<div style="padding: 20px; padding-left: 100px;" class="col-md-9">
+  <div class="header">
+    {{pageTitle}}
   </div>
-  <span *ngIf="errorMessage$">{{errorMessage$ | async}}</span>
+  <div style="padding-bottom: 10px; padding: 10px;">
+    <button class="btn btn-info btn-md" (click)="newEmployee()">Add New Employee</button>&nbsp;&nbsp;
+  </div>
+
+  <table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Department</th>
+        <th>Email</th>
+        <th>Country</th>
+        <th class="myButtons">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let employee of employees$ | async">
+        <td>{{ employee.id }}</td>
+        <td>{{ employee.firstName }}</td>
+        <td>{{ employee.lastName }}</td>
+        <td>{{ employee.department }}</td>
+        <td>{{ employee.email }}</td>
+        <td>{{ employee.country }}</td>
+        <td class="myButtons">
+          <button class="btn btn-info btn-sm" (click)="updateEmployee(employee)">Edit</button>&nbsp;&nbsp;
+          <button class="btn btn-danger btn-sm" (click)="deleteEmployee(employee)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<span *ngIf="errorMessage$">{{errorMessage$ | async}}</span>

@@ -20,6 +20,7 @@ export class EmployeeListComponent implements OnInit {
 
   employees$: Observable<Employee[]> | undefined;
   errorMessage$: Observable<string> | undefined;
+  pageTitle = 'Employee Listing';
 
 
 

@@ -45,12 +45,12 @@ export class EmployeeFormComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get('id');
     console.log("ID in Form page:" + this.id);
     let savedId = null;
-    if(this.id !== "0" && this.id !==null){
-       savedId = this.storageService.save('id',this.id);
+    if (this.id !== "0" && this.id !== null) {
+      savedId = this.storageService.save('id', this.id);
     }
-    
 
-    if (savedId!=null && savedId!==0) {
+
+    if (savedId != null && savedId !== 0) {
       this.store.dispatch(EmployeeActions.saveIdToStorage({ id: savedId }));
     }
 
@@ -70,17 +70,15 @@ export class EmployeeFormComponent implements OnInit {
         this.myEmployee = obj
       });
 
-     this.reloadEmployee();
-     
+    this.reloadEmployee();
+
   }
 
-  reloadEmployee():void{
+  reloadEmployee(): void {
     this.store.select(getCurrentEmployee);
   }
 
   displayEmployee(employee: Employee): void {
-
-    console.log("Dispatching Id from store: " +this.store.dispatch(loadIdFromStorage()))
 
     if (employee) {
       // Reset the form back to pristine
@@ -96,24 +94,25 @@ export class EmployeeFormComponent implements OnInit {
       });
     }
   }
-  cancelEdit(employee: Employee):void{
-     // Redisplay the currently selected employee
+  cancelEdit(employee: Employee): void {
+    // Redisplay the currently selected employee
     // replacing any edits made
     this.displayEmployee(employee);
   }
 
-  deleteEmployee(employee: Employee): void{
+  deleteEmployee(employee: Employee): void {
     if (employee && employee.id) {
       if (confirm(`Are you sure you want to delete employee: ${employee.firstName + ' ' + employee.lastName}?`)) {
         this.store.dispatch(EmployeeActions.deleteEmployee({ id: employee.id }));
       }
+      this.backToListing();
     }
     else {
       // No need to delete, it was never saved
       this.store.dispatch(EmployeeActions.clearCurrentEmployee());
     }
   }
-  backToListing():void{
+  backToListing(): void {
     this.router.navigate(['/list']);
   }
 
