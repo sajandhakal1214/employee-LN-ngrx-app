@@ -32,15 +32,6 @@ export class EmployeeListComponent implements OnInit {
 
   }
 
-  // employeeSelected(employee: Employee): void {
-  //   this.store.dispatch(EmployeeActions.setCurrentEmployee({ currentEmployeeId: employee.id }));
-
-  //   this.router.navigate(['/form', employee.id]);
-  //   //this.router.navigate(['/form']);
-
-  // }
-
-
   deleteEmployee(employee: Employee): void {
     if (employee && employee.id) {
       if (confirm(`Are you sure you want to delete employee: ${employee.firstName + ' ' + employee.lastName}?`)) {
