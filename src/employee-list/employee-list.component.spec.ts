@@ -1,51 +1,53 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { EmployeeListComponent } from './employee-list.component';
-import { Router } from '@angular/router';
-import { of } from 'rxjs';
-import * as store from '@ngrx/store';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { EmployeeListComponent } from "./employee-list.component";
+import { Store } from '@ngrx/store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { getCurrentEmployeeId, State } from 'src/Store/selector/employees.selector';
-import { employeeReducer } from 'src/Store/reducers/employee.reducer';
-import { deleteEmployee } from 'src/Store/actions/employee.actions';
-import { Employee } from 'src/models/employee.model';
+
+import { deleteEmployee, loadEmployees } from 'src/Store/actions/employee.actions';
+import { Employee } from "src/models/employee.model";
 
 describe('EmployeeListComponent', () => {
   let component: EmployeeListComponent;
   let fixture: ComponentFixture<EmployeeListComponent>;
-  //let mockEmployeeService: Store<State>;
-  let store = jasmine.createSpyObj('Store',['dispatch']);
+
+  let store: MockStore;
+
+  const initialState = {
+    myFeature: {
+      data: { id: 1, firstName: 'Peter', lastName: 'Gonzalez',department: 'CEO',email: 'Peter@gmail.com',country: 'Mexico'}
+    }
+  };
+
 
   beforeEach(() => {
-    store = jasmine.createSpyObj('Store', ['dispatch']);
-
     TestBed.configureTestingModule({
       declarations: [EmployeeListComponent],
-      imports:[store.StoreModule.forRoot({})],
-      providers:[
-        {provide: store.Store, useValue:store}
+      providers: [
+        provideMockStore({ initialState, selectors: [{ selector: getCurrentEmployeeId, value: [] }] })
       ]
-    });
 
+    }).compileComponents();
+
+    store = TestBed.inject(MockStore);
     fixture = TestBed.createComponent(EmployeeListComponent);
     component = fixture.componentInstance;
-  })
+    fixture.detectChanges()
 
-  it('should dispatch deleteEmployee action when delete is called', () => {
-    const employeeData: Employee ={
-      id: 123, // example id
-      firstName: 'John',
-      lastName: 'Doe',
-      department: 'Engineering',
-      country: 'France',
-      email:'john@gmail.com'
-    }
-   
-    const employee = getCurrentEmployeeId(employeeData);
-    
-    component.deleteEmployee(employeeData);
+  });
 
-    expect(store.dispatch).toHaveBeenCalledWith(deleteEmployee( employeeData));
+  it('should dispatch loadData action on init', ()=>{
+    spyOn(store, 'dispatch');
+    component.ngOnInit();
+    expect(store.dispatch).toHaveBeenCalledWith(loadEmployees());
+  });
+
+  it('should dispatch Delete action if confirmed', ()=>{
+      spyOn(store,'dispatch');
+      //spyOn(window,'confirm').and.returnValue(true);
+      const empToDelete: Employee = { id: 1, firstName: 'Peter', lastName: 'Gonzalez',department: 'CEO',email: 'Peter@gmail.com',country: 'Mexico', } ;
+      component.deleteEmployee(empToDelete );
+      expect(store.dispatch).toHaveBeenCalledWith(deleteEmployee(empToDelete));
   });
 
 });
-

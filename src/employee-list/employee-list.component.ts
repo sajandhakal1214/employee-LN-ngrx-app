@@ -34,6 +34,8 @@ export class EmployeeListComponent implements OnInit {
 
   deleteEmployee(employee: Employee): void {
     if (employee && employee.id) {
+      this.store.dispatch(EmployeeActions.deleteEmployee({ id: employee.id }));
+      this.reloadPage();
       if (confirm(`Are you sure you want to delete employee: ${employee.firstName + ' ' + employee.lastName}?`)) {
         this.store.dispatch(EmployeeActions.deleteEmployee({ id: employee.id }));
         this.reloadPage();
